@@ -374,9 +374,9 @@
           );
       }
       function talk() {
-        const bubble = document.getElementById("speechBubble");
-        const chat = document.getElementById("chatSection");
-        const isOpen =
+        let bubble = document.getElementById("speechBubble");
+        let chat = document.getElementById("chatSection");
+        let isOpen =
           bubble.style.display === "block" || chat.style.display === "block";
         bubble.style.display = isOpen ? "none" : "block";
         chat.style.display = isOpen ? "none" : "block";
@@ -386,9 +386,9 @@
       }
 
       function changeMood() {
-        const img = document.getElementById("gracieImg");
-        const wrap = document.getElementById("characterWrap");
-        const angle = Math.floor(Math.random() * 61) - 30;
+        let img = document.getElementById("gracieImg");
+        let wrap = document.getElementById("characterWrap");
+        let angle = Math.floor(Math.random() * 61) - 30;
         if (wrap) wrap.style.animationPlayState = "paused";
         img.style.transform = `rotate(${angle}deg)`;
         setTimeout(() => {
@@ -398,9 +398,9 @@
       }
 
       (function () {
-        const themeButton = document.getElementById("playTheme");
-        const themeAudio = document.getElementById("themeAudio");
-        const externalMusicPage = "https://freetouse.com/music";
+        let themeButton = document.getElementById("playTheme");
+        let themeAudio = document.getElementById("themeAudio");
+        let externalMusicPage = "https://freetouse.com/music";
 
         function isLikelyAudioUrl(url) {
           if (!url) return false;
@@ -408,9 +408,9 @@
         }
 
         themeButton.addEventListener("click", () => {
-          const src = themeAudio.getAttribute("src") || "";
+          let src = themeAudio.getAttribute("src") || "";
           if (!isLikelyAudioUrl(src)) {
-            const open = confirm(
+            let open = confirm(
               "The configured audio source is not a direct audio file and cannot be played here. Open the music page to download a playable file?"
             );
             if (open) window.open(externalMusicPage, "_blank");
@@ -436,14 +436,13 @@
         });
       })();
 
-      // Chat behavior: append messages and generate a simple Gracie reply
       (function () {
-        const sendBtn = document.getElementById("sendBtn");
-        const chatInput = document.getElementById("chatInput");
-        const chatLog = document.getElementById("chatLog");
+        let sendBtn = document.getElementById("sendBtn");
+        let chatInput = document.getElementById("chatInput");
+        let chatLog = document.getElementById("chatLog");
 
         function appendMessage(text, who) {
-          const msg = document.createElement("div");
+          let msg = document.createElement("div");
           msg.className = "chat-msg " + who;
           msg.textContent = text;
           chatLog.appendChild(msg);
@@ -452,7 +451,7 @@
 
         function generateReply(userText) {
           if (!userText) return "You sound quiet — want to try again? 😊";
-          const t = userText.toLowerCase();
+          let t = userText.toLowerCase();
           if (/hello|hi|hey|hiya/.test(t))
             return "Hi there! I love making new friends — what's your favorite thing to invent?";
           if (/name/.test(t))
@@ -467,8 +466,7 @@
             return "Bye for now! Come back soon, friend. 💜";
           if (/thank/.test(t))
             return "You're welcome! I'm so glad we chatted. 💫";
-          // fallback friendly responses
-          const fallbacks = [
+          let fallbacks = [
             "That sounds fun! Tell me more.",
             "I want to try that too — how did you think of it?",
             "Wow — imagination power! Do you have a drawing?",
@@ -478,12 +476,11 @@
         }
 
         function sendMessage() {
-          const text = chatInput.value.trim();
+          let text = chatInput.value.trim();
           if (!text) return;
           appendMessage(text, "user");
           chatInput.value = "";
-          // small typing delay for Gracie
-          const typing = document.createElement("div");
+          let typing = document.createElement("div");
           typing.className = "chat-msg gracie typing";
           typing.textContent = "Gracie is typing...";
           chatLog.appendChild(typing);
@@ -491,7 +488,7 @@
 
           setTimeout(() => {
             typing.remove();
-            const reply = generateReply(text);
+            let reply = generateReply(text);
             appendMessage(reply, "gracie");
           }, 900 + Math.random() * 900);
         }
