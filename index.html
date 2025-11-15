@@ -12,7 +12,6 @@
       body {
         margin: 0;
         font-family: "Comic Sans MS", cursive, sans-serif;
-        /* fixed: provide two colors for the gradient */
         background: linear-gradient(to bottom, #ffeaf6, #c7f5ff);
         color: #000000ff;
         overflow-x: hidden;
@@ -38,7 +37,6 @@
         background-size: cover;
         background-position: center;
         padding: 20px;
-        /* remove forced 100vh to avoid pushing footer away and creating white gaps */
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -199,6 +197,66 @@
           transform: translateY(-10px);
         }
       }
+      #chatSection {
+        display: none;
+      }
+      .chat-container {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        max-width: 720px;
+        margin: 8px auto;
+      }
+      .chat-log {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 12px;
+        padding: 12px;
+        min-height: 140px;
+        max-height: 240px;
+        overflow-y: auto;
+        border: 2px solid #ff6ec7;
+      }
+      .chat-msg {
+        padding: 10px 14px;
+        margin: 8px 0;
+        display: inline-block;
+        max-width: 80%;
+        border-radius: 16px;
+        font-size: 16px;
+      }
+      .chat-msg.user {
+        background: linear-gradient(135deg, #ffd6f0, #ffecf8);
+        align-self: flex-end;
+        border: 2px solid #ff1493;
+      }
+      .chat-msg.gracie {
+        background: linear-gradient(135deg, #e8f7ff, #fff);
+        align-self: flex-start;
+        border: 2px solid #8ecaf7;
+      }
+      .chat-msg.typing {
+        font-style: italic;
+        opacity: 0.8;
+      }
+      .chat-input {
+        display: flex;
+        gap: 8px;
+      }
+      .chat-input textarea {
+        flex: 1 1 auto;
+        border-radius: 12px;
+        padding: 10px;
+        font-size: 16px;
+        border: 2px solid #ffd6f0;
+        resize: vertical;
+      }
+      #sendBtn {
+        background: linear-gradient(135deg, #ff6ec7, #ff1493);
+        color: white;
+        padding: 10px 18px;
+        border-radius: 12px;
+        align-self: flex-end;
+      }
     </style>
   </head>
   <body>
@@ -248,6 +306,22 @@
         together! 🚀💜
       </div>
 
+      <section class="intro" id="chatSection">
+        <h2>💬 Chat with Gracie</h2>
+        <div class="chat-container">
+          <div class="chat-log" id="chatLog" aria-live="polite"></div>
+          <div class="chat-input">
+            <textarea
+              id="chatInput"
+              rows="2"
+              placeholder="Write a message to Gracie..."
+              aria-label="Message to Gracie"
+            ></textarea>
+            <button id="sendBtn">Send</button>
+          </div>
+        </div>
+      </section>
+
       <section class="facts" id="factsSection">
         <div class="fact">
           💡 Gracie built her first mini robot out of recycled parts!
@@ -272,14 +346,6 @@
           id="themeAudio"
           src="media/Piki - Monogatari (freetouse.com).mp3"
         ></audio>
-        <p>
-          <em
-            >Music: "Monogatari" by Piki —
-            <a href="https://freetouse.com/music" target="_blank" rel="noopener"
-              >No Copyright Background Music</a
-            ></em
-          >
-        </p>
       </section>
 
       <div class="join-section">
@@ -292,9 +358,9 @@
     <footer>
       Made with ❤️ by Carey-Ann Meinie<br />
       Powered by creativity, code, and imagination ✨<br />
-      Music: "Monogatari" by Piki —
-      <a href="https://freetouse.com/music" target="_blank" rel="noopener"
-        >No Copyright Background Music</a
+      Music track: Monogatari by Piki Source:
+      <a href="https://freetouse.com/music" target="_blank" rel="noopener">
+        Music for Video (Free Download)</a
       >
     </footer>
 
@@ -309,8 +375,11 @@
       }
       function talk() {
         const bubble = document.getElementById("speechBubble");
-        bubble.style.display =
-          bubble.style.display === "block" ? "none" : "block";
+        const chat = document.getElementById("chatSection");
+        const isOpen =
+          bubble.style.display === "block" || chat.style.display === "block";
+        bubble.style.display = isOpen ? "none" : "block";
+        chat.style.display = isOpen ? "none" : "block";
       }
       function joinAdventure() {
         alert("Yay! You’ve joined Gracie’s adventure! 🚀💜");
@@ -363,6 +432,75 @@
           } else {
             themeAudio.pause();
             themeButton.textContent = "🎵 Play Theme Song";
+          }
+        });
+      })();
+
+      // Chat behavior: append messages and generate a simple Gracie reply
+      (function () {
+        const sendBtn = document.getElementById("sendBtn");
+        const chatInput = document.getElementById("chatInput");
+        const chatLog = document.getElementById("chatLog");
+
+        function appendMessage(text, who) {
+          const msg = document.createElement("div");
+          msg.className = "chat-msg " + who;
+          msg.textContent = text;
+          chatLog.appendChild(msg);
+          chatLog.scrollTop = chatLog.scrollHeight;
+        }
+
+        function generateReply(userText) {
+          if (!userText) return "You sound quiet — want to try again? 😊";
+          const t = userText.toLowerCase();
+          if (/hello|hi|hey|hiya/.test(t))
+            return "Hi there! I love making new friends — what's your favorite thing to invent?";
+          if (/name/.test(t))
+            return "I'm Gracie! I build things and sing to my robots. What's your name?";
+          if (/invent|build|robot|code/.test(t))
+            return "Ooh — I love that! Tell me more or ask me how to start building something small.";
+          if (/music|song|theme/.test(t))
+            return "My theme song? I love music! Press the play button to listen again. 🎵";
+          if (/join|adventure/.test(t))
+            return "Yay! You're part of the crew now — let's imagine a purple rocket together. 🚀";
+          if (/bye|goodbye|see you/.test(t))
+            return "Bye for now! Come back soon, friend. 💜";
+          if (/thank/.test(t))
+            return "You're welcome! I'm so glad we chatted. 💫";
+          // fallback friendly responses
+          const fallbacks = [
+            "That sounds fun! Tell me more.",
+            "I want to try that too — how did you think of it?",
+            "Wow — imagination power! Do you have a drawing?",
+            "That's so creative! What's the next step?",
+          ];
+          return fallbacks[Math.floor(Math.random() * fallbacks.length)];
+        }
+
+        function sendMessage() {
+          const text = chatInput.value.trim();
+          if (!text) return;
+          appendMessage(text, "user");
+          chatInput.value = "";
+          // small typing delay for Gracie
+          const typing = document.createElement("div");
+          typing.className = "chat-msg gracie typing";
+          typing.textContent = "Gracie is typing...";
+          chatLog.appendChild(typing);
+          chatLog.scrollTop = chatLog.scrollHeight;
+
+          setTimeout(() => {
+            typing.remove();
+            const reply = generateReply(text);
+            appendMessage(reply, "gracie");
+          }, 900 + Math.random() * 900);
+        }
+
+        sendBtn.addEventListener("click", sendMessage);
+        chatInput.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
           }
         });
       })();
