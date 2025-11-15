@@ -3,141 +3,369 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Quando&display=swap"
-      rel="stylesheet"
-    />
-    <title>Gracie's Adventure</title>
+    <title>🌟 Gracie’s Adventure</title>
     <style>
+      html,
+      body {
+        height: 100%;
+      }
       body {
         margin: 0;
-        font-family: "Quando", cursive;
-        background: linear-gradient(to bottom, #fceabb, #f8b500);
-        color: #4b2e83;
-        text-align: center;
+        font-family: "Comic Sans MS", cursive, sans-serif;
+        /* fixed: provide two colors for the gradient */
+        background: linear-gradient(to bottom, #ffeaf6, #c7f5ff);
+        color: #000000ff;
+        overflow-x: hidden;
       }
-
       header {
-        padding: 40px;
-        background: #ff6ec7;
+        text-align: center;
+        padding: 32px;
+        background-color: #ff6ec7;
+        border-bottom: 5px solid #ff1493;
         color: white;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
       }
-
       h1 {
-        font-family: "Fredoka One", cursive;
         font-size: 48px;
-        margin-bottom: 10px;
+        margin-bottom: 8px;
       }
-
-      .mascot {
-        width: 200px;
-        margin: 20px auto;
+      p {
+        line-height: 1.6;
+        font-size: 24px;
+      }
+      main {
+        position: relative;
+        background-image: url("https://s3.amazonaws.com/shecodesio-production/uploads/files/000/175/829/original/ivEi3hLtRvGYwMbqvLXc2w.jpg?1763060907");
+        background-size: cover;
+        background-position: center;
+        padding: 20px;
+        /* remove forced 100vh to avoid pushing footer away and creating white gaps */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      main::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.4);
+        z-index: 0;
+      }
+      main > * {
+        position: relative;
+        z-index: 1;
+      }
+      .intro {
+        text-align: center;
+        padding: 16px 32px;
+        font-size: 21px;
+        max-width: 800px;
+        margin: auto;
+      }
+      .character-wrap {
+        display: block;
+        margin: 12px auto;
         animation: bounce 2s infinite;
       }
 
+      .character-img {
+        display: block;
+        width: 250px;
+        border-radius: 15px;
+        box-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
+        transition: transform 0.5s ease;
+      }
+      .cta,
+      .join-section {
+        text-align: center;
+        margin: 32px;
+      }
+      button {
+        background-color: #ff6ec7;
+        border: none;
+        padding: 16px 32px;
+        font-size: 19px;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: all 0.3s ease, box-shadow 0.3s ease;
+        margin: 8px;
+        color: white;
+        box-shadow: 0 4px 8px rgba(255, 105, 180, 0.4);
+        position: relative;
+        overflow: hidden;
+      }
+      button::after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: -100%;
+        background: rgba(255, 255, 255, 0.2);
+        transition: all 0.5s ease;
+      }
+      button:hover::after {
+        left: 0;
+      }
+      button:hover {
+        background-color: #ff1493;
+        transform: scale(1.1) rotate(-1deg);
+        box-shadow: 0 8px 16px rgba(255, 105, 180, 0.6);
+      }
+      button:active {
+        transform: scale(0.95);
+        box-shadow: 0 2px 6px rgba(255, 105, 180, 0.6);
+      }
+      #playTheme {
+        background: linear-gradient(135deg, #8e44ad, #ff6ec7);
+        font-size: 20px;
+      }
+      .facts {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 16px;
+        padding: 32px;
+      }
+      .fact {
+        background: linear-gradient(135deg, #ffecf8, #ffd6f0);
+        border: 3px dashed #ff6ec7;
+        border-radius: 20px;
+        padding: 24px;
+        width: 260px;
+        text-align: center;
+        box-shadow: 0 8px 15px rgba(255, 105, 180, 0.3);
+        display: none;
+        transition: transform 0.3s ease, box-shadow 0.3s ease,
+          background 0.5s ease;
+        font-weight: bold;
+        font-size: 18px;
+      }
+      .fact:hover {
+        transform: scale(1.08) rotate(-1deg);
+        box-shadow: 0 12px 25px rgba(255, 105, 180, 0.5);
+        background: linear-gradient(135deg, #ffd6f0, #ffecf8);
+      }
+      .speech {
+        text-align: center;
+        background-color: #fff;
+        border-radius: 25px;
+        padding: 15px;
+        width: 60%;
+        margin: 16px auto;
+        font-size: 18px;
+        border: 2px solid #ff6ec7;
+        box-shadow: 0 5px 15px rgba(255, 105, 180, 0.2);
+        display: none;
+        position: relative;
+      }
+
+      .video {
+        text-align: center;
+        margin: 24px 0;
+      }
+      .speech::after {
+        content: "";
+        position: absolute;
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-width: 15px;
+        border-style: solid;
+        border-color: #fff transparent transparent transparent;
+      }
+      footer {
+        text-align: center;
+        padding: 12px;
+        background-color: #ff6ec7;
+        font-size: 14px;
+        color: white;
+        margin-top: 6px;
+      }
       @keyframes bounce {
         0%,
         20%,
         50%,
         80%,
         100% {
-          transform: translateY(0);
+          transform: translateY(0px);
         }
         40% {
-          transform: translateY(-20px);
+          transform: translateY(-25px);
         }
         60% {
           transform: translateY(-10px);
         }
       }
-
-      .intro {
-        font-size: 20px;
-        padding: 20px;
-        max-width: 80%;
-        margin: 0 auto;
-      }
-
-      .enter-button {
-        background: #4b2e83;
-        color: white;
-        padding: 15px 30px;
-        border: none;
-        border-radius: 30px;
-        font-size: 20px;
-        cursor: pointer;
-        margin-top: 30px;
-        transition: background 0.3s ease;
-      }
-
-      .enter-button:hover {
-        background: #321c5e;
-      }
-
-      footer {
-        margin-top: 40px;
-        font-size: 14px;
-        color: #ff1493;
-      }
     </style>
   </head>
   <body>
     <header>
-      <h1>Welcome to Gracie's Adventure</h1>
-      <p>Where imagination sparkles and creativity shines ✨</p>
+      <h1>🌈 Welcome to Gracie’s Adventure</h1>
+      <p>Where curiosity, creativity, and courage come alive ✨</p>
     </header>
 
-    <img
-      src="https://via.placeholder.com/200x200.png?text=Amari"
-      alt="Amari the Inventor"
-      class="mascot"
-    />
+    <main>
+      <section class="intro">
+        <p>
+          Meet <strong>Gracie</strong> — a bright young inventor with a big
+          imagination and an even bigger heart! She loves designing fun gadgets,
+          exploring colorful worlds, and helping her friends with kindness,
+          creativity, and a little magic.
+        </p>
+      </section>
 
-    <div class="intro">
-      <p>
-        Meet <strong>Gracie</strong> – our inventive young hero who loves to
-        create gadgets, explore magical lands, and spread joy wherever they go.
-        With a spark of curiosity and a heart full of courage, Gracie shows us
-        that anything is possible!
-      </p>
-      <button class="enter-button">Join Gracie's Adventure</button>
-    </div>
+      <div class="character-wrap" id="characterWrap">
+        <img
+          src="https://s3.amazonaws.com/shecodesio-production/uploads/files/000/175/829/original/ivEi3hLtRvGYwMbqvLXc2w.jpg?1763060907"
+          alt="Gracie the Inventor"
+          class="character-img"
+          id="gracieImg"
+        />
+      </div>
+
+      <section class="intro">
+        <h2>🌟 About Gracie’s World</h2>
+        <p>
+          Gracie lives in the playful town of <em>Brightville</em> — a place
+          filled with color, laughter, and possibilities. Every day, she
+          discovers something new: from coding her talking robot
+          <strong>Pip</strong> to building bridges that sing! Her adventures
+          remind us all that imagination has no limits.
+        </p>
+      </section>
+
+      <div class="cta">
+        <button onclick="toggleFacts()">💡 Show Fun Facts</button>
+        <button onclick="changeMood()">🎭 Change Gracie’s Pose</button>
+        <button onclick="talk()">💬 Talk to Gracie</button>
+      </div>
+
+      <div class="speech" id="speechBubble">
+        Hi there, friend! I’m Gracie — let’s explore, invent, and dream big
+        together! 🚀💜
+      </div>
+
+      <section class="facts" id="factsSection">
+        <div class="fact">
+          💡 Gracie built her first mini robot out of recycled parts!
+        </div>
+        <div class="fact">
+          🎨 Her favorite color is purple — it reminds her to stay creative.
+        </div>
+        <div class="fact">
+          🌍 Gracie dreams of exploring space one day and coding her own
+          spaceship.
+        </div>
+        <div class="fact">
+          🧩 Her motto: “There’s no problem too big when you think outside the
+          box!”
+        </div>
+      </section>
+
+      <section class="video">
+        <h2>🎶 Gracie’s Theme Song</h2>
+        <button id="playTheme">🎵 Play Theme Song</button>
+        <audio
+          id="themeAudio"
+          src="media/Piki - Monogatari (freetouse.com).mp3"
+        ></audio>
+        <p>
+          <em
+            >Music: "Monogatari" by Piki —
+            <a href="https://freetouse.com/music" target="_blank" rel="noopener"
+              >No Copyright Background Music</a
+            ></em
+          >
+        </p>
+      </section>
+
+      <div class="join-section">
+        <button class="join" onclick="joinAdventure()">
+          🌟 Join Gracie's Adventure
+        </button>
+      </div>
+    </main>
 
     <footer>
-      <p>
-        © 2025 | Built with ❤️✨ by
-        <a
-          href="https://c-meinie-portfolio.netlify.app/"
-          target="_blank"
-          rel="noopener"
-          ><strong>Carey-Ann Meinie</strong></a
-        >
-        · open-sourced on
-        <a
-          href="https://github.com/CareyM92/Iconic-Trolls-Cartoon-Character-Project"
-          target="_blank"
-          rel="noopener"
-          >GitHub</a
-        >
-        · hosted on
-        <a
-          href="https://trolls-cartoon-character.netlify.app/"
-          target="_blank"
-          rel="noopener"
-          >Netlify</a
-        >
-      </p>
+      Made with ❤️ by Carey-Ann Meinie<br />
+      Powered by creativity, code, and imagination ✨<br />
+      Music: "Monogatari" by Piki —
+      <a href="https://freetouse.com/music" target="_blank" rel="noopener"
+        >No Copyright Background Music</a
+      >
     </footer>
 
     <script>
-      document.querySelector(".enter-button").addEventListener("click", () => {
-        alert("Welcome to Gracie's Adventure! Let the fun begin! 🎨✨");
-      });
+      function toggleFacts() {
+        document
+          .querySelectorAll(".fact")
+          .forEach(
+            (f) =>
+              (f.style.display = f.style.display === "block" ? "none" : "block")
+          );
+      }
+      function talk() {
+        const bubble = document.getElementById("speechBubble");
+        bubble.style.display =
+          bubble.style.display === "block" ? "none" : "block";
+      }
+      function joinAdventure() {
+        alert("Yay! You’ve joined Gracie’s adventure! 🚀💜");
+      }
+
+      function changeMood() {
+        const img = document.getElementById("gracieImg");
+        const wrap = document.getElementById("characterWrap");
+        const angle = Math.floor(Math.random() * 61) - 30;
+        if (wrap) wrap.style.animationPlayState = "paused";
+        img.style.transform = `rotate(${angle}deg)`;
+        setTimeout(() => {
+          if (wrap) wrap.style.animationPlayState = "running";
+          img.style.transform = "";
+        }, 1800);
+      }
+
+      (function () {
+        const themeButton = document.getElementById("playTheme");
+        const themeAudio = document.getElementById("themeAudio");
+        const externalMusicPage = "https://freetouse.com/music";
+
+        function isLikelyAudioUrl(url) {
+          if (!url) return false;
+          return /\.(mp3|wav|ogg|m4a|aac)(\?|$)/i.test(url);
+        }
+
+        themeButton.addEventListener("click", () => {
+          const src = themeAudio.getAttribute("src") || "";
+          if (!isLikelyAudioUrl(src)) {
+            const open = confirm(
+              "The configured audio source is not a direct audio file and cannot be played here. Open the music page to download a playable file?"
+            );
+            if (open) window.open(externalMusicPage, "_blank");
+            return;
+          }
+
+          if (themeAudio.paused) {
+            themeAudio
+              .play()
+              .then(() => {
+                themeButton.textContent = "⏸ Pause Theme Song";
+              })
+              .catch((err) => {
+                console.warn("Audio play failed:", err);
+                alert(
+                  "Playback failed — your browser may block autoplay or the file could not be loaded."
+                );
+              });
+          } else {
+            themeAudio.pause();
+            themeButton.textContent = "🎵 Play Theme Song";
+          }
+        });
+      })();
     </script>
   </body>
 </html>
