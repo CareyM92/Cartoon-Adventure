@@ -128,11 +128,6 @@
         box-shadow: 0 2px 6px rgba(255, 105, 180, 0.6);
       }
 
-      #playTheme {
-        background: linear-gradient(135deg, #8e44ad, #ff6ec7);
-        font-size: 20px;
-      }
-
       .facts {
         display: flex;
         flex-wrap: wrap;
@@ -379,12 +374,6 @@
         </div>
       </section>
 
-      <section class="video">
-        <h2>🎶 Gracie’s Theme Song</h2>
-        <button id="playTheme">🎵 Play Theme Song</button>
-        <audio id="themeAudio" src="piki-monogatari.mp3"></audio>
-      </section>
-
       <div class="join-section">
         <button class="join" onclick="joinAdventure()">
           🌟 Join Gracie's Adventure
@@ -414,10 +403,6 @@
           target="_blank"
           rel="noopener"
           ><b>Live Site</b></a
-        ><br />
-        Music track: Monogatari by Piki Source:
-        <a href="https://freetouse.com/music" target="_blank" rel="noopener"
-          >Music for Video (Free Download)</a
         >
       </div>
     </footer>
@@ -440,7 +425,14 @@
       }
 
       function joinAdventure() {
-        alert("Yay! You’ve joined Gracie’s adventure! 🚀💜");
+        let name = prompt("What's your name, adventurer? 💫");
+        if (name && name.trim() !== "") {
+          alert(
+            `Yay, ${name.trim()}! You’ve joined Gracie’s adventure! Welcome 🚀💜`
+          );
+        } else {
+          alert("Yay! You’ve joined Gracie’s adventure! 🚀💜");
+        }
       }
 
       function changeMood() {
@@ -449,20 +441,6 @@
         i.style.transform = `rotate(${a}deg)`;
         setTimeout(() => (i.style.transform = ""), 1800);
       }
-
-      (function () {
-        let btn = document.getElementById("playTheme"),
-          audio = document.getElementById("themeAudio");
-        btn.addEventListener("click", () => {
-          if (audio.paused) {
-            audio.play();
-            btn.textContent = "⏸ Pause Theme Song";
-          } else {
-            audio.pause();
-            btn.textContent = "🎵 Play Theme Song";
-          }
-        });
-      })();
 
       (function () {
         let sendBtn = document.getElementById("sendBtn"),
